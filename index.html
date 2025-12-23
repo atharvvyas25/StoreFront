@@ -6,75 +6,67 @@
     <title>Storefront - Order via WhatsApp</title>
     <meta name="description" content="Modern mobile app-style storefront. Order directly on WhatsApp - Fast, Simple, No Checkout.">
     <link rel="stylesheet" href="style.css">
-    <!-- GSAP Animation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-    <!-- App-Style Top Bar -->
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+    
+    <!-- Mobile Navigation Menu -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-header">
+            <h3>Menu</h3>
+            <button class="close-btn" id="closeNavBtn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#hero" class="nav-link">Home</a>
+            <a href="#products" class="nav-link">Products</a>
+            <a href="#how-it-works" class="nav-link">How It Works</a>
+            <a href="#testimonials" class="nav-link">Reviews</a>
+            <a href="#" class="nav-link" onclick="openWhatsApp()">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Top Bar -->
     <header class="top-bar">
         <div class="container">
             <div class="top-bar-content">
-                <div class="search-bar">
-                    <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                    </svg>
-                    <span>Search products...</span>
-                </div>
-                <div class="top-bar-icons">
-                    <div class="icon-btn" id="hamburgerBtn">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Mobile Navigation Menu -->
-        <div class="mobile-nav" id="mobileNav">
-            <div class="mobile-nav-content">
-                <div class="mobile-nav-header">
-                    <h3>Menu</h3>
-                    <button class="close-btn" id="closeNavBtn">
+                <div class="logo">Storefront</div>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+                    <button class="search-clear" id="searchClear" style="display: none;">
                         <svg viewBox="0 0 24 24" fill="currentColor">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                         </svg>
                     </button>
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
                 </div>
-                <nav class="mobile-nav-links">
-                    <a href="#" class="nav-link" onclick="scrollToSection('hero-promo')">Home</a>
-                    <a href="#" class="nav-link" onclick="scrollToSection('products')">Products</a>
-                    <a href="#" class="nav-link" onclick="scrollToSection('how-it-works')">How It Works</a>
-                    <a href="#" class="nav-link" onclick="scrollToSection('testimonials')">Reviews</a>
-                    <a href="#" class="nav-link" onclick="openWhatsApp()">Contact</a>
-                </nav>
-            </div>
-        </div>
-        
-        <!-- Mobile Nav Overlay -->
-        <div class="mobile-nav-overlay" id="mobileNavOverlay"></div>
+                <button class="hamburger-btn" id="hamburgerBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Hero Promo Card -->
-    <section class="hero-promo">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
         <div class="container">
-            <div class="promo-card">
-                <div class="promo-content">
-                    <h1 class="promo-title">Order directly on WhatsApp</h1>
-                    <p class="promo-subtitle">Fast • Simple • No Checkout</p>
-                    <button class="btn-primary promo-btn" onclick="openWhatsApp()">
-                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516z"/>
-                        </svg>
-                        Start Shopping
-                    </button>
-                </div>
-                <div class="promo-visual">
-                    <div class="phone-mockup">📱</div>
-                </div>
+            <div class="hero-content">
+                <h1>Order directly on WhatsApp</h1>
+                <p class="hero-subtitle">Fast • Simple • No Checkout</p>
+                <button class="btn-primary" onclick="openWhatsApp()">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516z"/>
+                    </svg>
+                    Start Shopping
+                </button>
             </div>
         </div>
     </section>
@@ -82,21 +74,22 @@
     <!-- Category Pills -->
     <section class="categories">
         <div class="container">
-            <div class="category-scroll">
-                <div class="category-pills">
-                    <button class="category-pill active" data-category="all">All</button>
-                    <button class="category-pill" data-category="t-shirts">T-Shirts</button>
-                    <button class="category-pill" data-category="hoodies">Hoodies</button>
-                    <button class="category-pill" data-category="custom">Custom</button>
-                </div>
+            <div class="category-pills">
+                <button class="category-pill active" data-category="all">All</button>
+                <button class="category-pill" data-category="t-shirts">T-Shirts</button>
+                <button class="category-pill" data-category="hoodies">Hoodies</button>
+                <button class="category-pill" data-category="custom">Custom</button>
             </div>
         </div>
     </section>
 
     <!-- Products Grid -->
-    <section class="products">
+    <section class="products" id="products">
         <div class="container">
-            <div class="products-grid" id="productsGrid">
+            <div class="loading" id="loading" style="text-align: center; padding: 2rem;">
+                <div class="loading-spinner">Loading products...</div>
+            </div>
+            <div class="products-grid" id="productsGrid" style="display: none;">
                 <!-- Products will be dynamically inserted here -->
             </div>
         </div>
@@ -132,7 +125,7 @@
     </section>
 
     <!-- How It Works -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="how-it-works">
         <div class="container">
             <h2 class="section-title">How It Works</h2>
             <div class="steps-container">
@@ -141,13 +134,11 @@
                     <h3>Choose Product</h3>
                     <p>Select size & quantity</p>
                 </div>
-                <div class="step-arrow">→</div>
                 <div class="step-card">
                     <div class="step-icon">💬</div>
                     <h3>Tap WhatsApp</h3>
                     <p>Send order instantly</p>
                 </div>
-                <div class="step-arrow">→</div>
                 <div class="step-card">
                     <div class="step-icon">✅</div>
                     <h3>Get Confirmation</h3>
@@ -158,7 +149,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="testimonials">
+    <section class="testimonials" id="testimonials">
         <div class="container">
             <h2 class="section-title">Happy Customers</h2>
             <div class="testimonials-scroll">

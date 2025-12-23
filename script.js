@@ -1,23 +1,18 @@
-// App Configuration - Easy to customize
+// Configuration
 const CONFIG = {
-    // WhatsApp number (change this to your business number)
     whatsappNumber: '+15551234567',
-    
-    // Business name
     businessName: 'Storefront',
-    
-    // Currency symbol
     currency: '$'
 };
 
-// Products data - Easy to add/edit/remove products
+// Products data
 const PRODUCTS = [
     {
         id: 1,
         name: 'Creator Oversized T-Shirt',
         price: 29.99,
         category: 't-shirts',
-        image: 'Creator Oversized T-Shirt.jpg', // Using actual image from folder
+        image: 'Creator Oversized T-Shirt.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.8
     },
@@ -26,7 +21,7 @@ const PRODUCTS = [
         name: 'Black Cat Hoodie In A Bag',
         price: 59.99,
         category: 'hoodies',
-        image: 'Black Cat Hoodie In A Bag.jpg', // Using actual image from folder
+        image: 'Black Cat Hoodie In A Bag.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.9
     },
@@ -35,7 +30,7 @@ const PRODUCTS = [
         name: 'Vintage Graphic Tee',
         price: 34.99,
         category: 't-shirts',
-        image: 'Graphic T-Shirts Vintage Oversized Tees Streetwear Casual Acid.jpg', // Using actual image from folder
+        image: 'Graphic T-Shirts Vintage Oversized Tees Streetwear Casual Acid.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.7
     },
@@ -44,7 +39,7 @@ const PRODUCTS = [
         name: 'Letter Bishop Hoodie',
         price: 69.99,
         category: 'hoodies',
-        image: 'Letter Bishop Hoodie.jpg', // Using actual image from folder
+        image: 'Letter Bishop Hoodie.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.8
     },
@@ -53,7 +48,7 @@ const PRODUCTS = [
         name: 'Custom Design T-Shirt',
         price: 39.99,
         category: 'custom',
-        image: 'custom tee 1.jpg', // Using actual image from folder
+        image: 'custom tee 1.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.6
     },
@@ -62,7 +57,7 @@ const PRODUCTS = [
         name: 'Aesthetic Hoodie',
         price: 79.99,
         category: 'hoodies',
-        image: 'Women Men Aesthetic Hoodie,.jpg', // Using actual image from folder
+        image: 'Women Men Aesthetic Hoodie,.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.9
     },
@@ -71,7 +66,7 @@ const PRODUCTS = [
         name: 'White Embroidered Cotton T-Shirt',
         price: 32.99,
         category: 't-shirts',
-        image: 'White Embroideried Cotton T Shirts Men Summer.jpg', // Using actual image from folder
+        image: 'White Embroideried Cotton T Shirts Men Summer.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.5
     },
@@ -80,43 +75,43 @@ const PRODUCTS = [
         name: 'Funny Goose Print Tee',
         price: 27.99,
         category: 't-shirts',
-        image: 'Aelfric Eden Men\'s and Womens Funny Goose Print Tee Causal Baggy Short Sleeve Classic Cotton Graphic Tshirt.jpg', // Using actual image from folder
+        image: 'Aelfric Eden Men\'s and Womens Funny Goose Print Tee Causal Baggy Short Sleeve Classic Cotton Graphic Tshirt.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.7
     },
     {
         id: 9,
-        name: 'Graphic Hoodie',
-        price: 64.99,
+        name: 'Plain Hoodie',
+        price: 49.99,
         category: 'hoodies',
-        image: 'graphic hoody.jpg', // Using actual image from folder
+        image: 'plain hoody.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.6
     },
     {
         id: 10,
-        name: 'Plain Classic Hoodie',
-        price: 49.99,
+        name: 'Graphic Hoodie',
+        price: 64.99,
         category: 'hoodies',
-        image: 'plain hoody.jpg', // Using actual image from folder
+        image: 'graphic hoody.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.8
     },
     {
         id: 11,
         name: 'Custom Design Tee 2',
-        price: 42.99,
+        price: 35.99,
         category: 'custom',
-        image: 'custom tee 2.jpg', // Using actual image from folder
+        image: 'custom tee 2.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.5
     },
     {
         id: 12,
         name: 'Illustration Off-White T-Shirt',
-        price: 36.99,
+        price: 42.99,
         category: 't-shirts',
-        image: 'illustration-off white tshirt.jpg', // Using actual image from folder
+        image: 'illustration-off white tshirt.jpg',
         sizes: ['S', 'M', 'L', 'XL'],
         rating: 4.7
     }
@@ -126,73 +121,105 @@ const PRODUCTS = [
 let currentCategory = 'all';
 let productQuantities = {};
 let productSizes = {};
+let searchQuery = '';
 
-// Initialize the application
+// Initialize app
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, initializing app...');
     initializeApp();
 });
 
 function initializeApp() {
+    console.log('Initializing app...');
+    initializeProductState();
     renderProducts();
     setupCategoryFilters();
-    setupScrollAnimations();
-    initializeProductState();
-    setupTopBarScroll();
-    setupHamburgerMenu(); // Fixed: Added hamburger menu initialization
-    initGSAPAnimations(); // Added: Initialize GSAP animations
+    setupHamburgerMenu();
+    setupSearch();
+    console.log('App initialized successfully');
 }
 
-// Initialize product state (quantities and sizes)
+// Initialize product state
 function initializeProductState() {
     PRODUCTS.forEach(product => {
         productQuantities[product.id] = 1;
-        productSizes[product.id] = product.sizes[0]; // Default to first size
+        productSizes[product.id] = product.sizes[0];
     });
+    console.log('Product state initialized');
 }
 
-// Setup top bar scroll behavior
-function setupTopBarScroll() {
-    const topBar = document.querySelector('.top-bar');
-    let lastScrollY = window.scrollY;
+// Render products
+function renderProducts() {
+    console.log('Rendering products...');
+    const productsGrid = document.getElementById('productsGrid');
+    const loading = document.getElementById('loading');
     
-    window.addEventListener('scroll', () => {
-        const currentScrollY = window.scrollY;
+    if (!productsGrid) {
+        console.error('Products grid not found!');
+        return;
+    }
+    
+    // Show loading
+    if (loading) {
+        loading.style.display = 'block';
+        productsGrid.style.display = 'none';
+    }
+    
+    let filteredProducts = PRODUCTS;
+    
+    // Filter by category
+    if (currentCategory !== 'all') {
+        filteredProducts = filteredProducts.filter(product => product.category === currentCategory);
+    }
+    
+    // Filter by search query
+    if (searchQuery.trim() !== '') {
+        filteredProducts = filteredProducts.filter(product => 
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            product.category.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
+    
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+        productsGrid.innerHTML = '';
         
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            topBar.style.transform = 'translateY(-100%)';
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = `
+                <div class="no-products">
+                    <div class="no-products-icon">🔍</div>
+                    <h3>No products found</h3>
+                    <p>Try adjusting your search or category filter</p>
+                </div>
+            `;
         } else {
-            topBar.style.transform = 'translateY(0)';
+            filteredProducts.forEach((product, index) => {
+                const productCard = createProductCard(product);
+                productsGrid.appendChild(productCard);
+                
+                // Simple fade-in animation
+                setTimeout(() => {
+                    productCard.classList.add('fade-in-up');
+                }, index * 100);
+            });
         }
         
-        lastScrollY = currentScrollY;
-    });
+        // Hide loading and show products
+        if (loading) {
+            loading.style.display = 'none';
+            productsGrid.style.display = 'grid';
+        }
+        
+        console.log(`Rendered ${filteredProducts.length} products`);
+    }, 300);
 }
-
-// Render products in the grid
-function renderProducts() {
-    const productsGrid = document.getElementById('productsGrid');
-    const filteredProducts = currentCategory === 'all' 
-        ? PRODUCTS 
-        : PRODUCTS.filter(product => product.category === currentCategory);
-    
-    productsGrid.innerHTML = '';
-    
-    filteredProducts.forEach((product, index) => {
-        const productCard = createProductCard(product);
-        productsGrid.appendChild(productCard);
-    });
-    
-    // Use GSAP animation instead of setTimeout
-    animateProductCards();
-}
-
-// Create individual product card
+// Create product card
 function createProductCard(product) {
     const card = document.createElement('div');
     card.className = 'product-card';
     card.style.opacity = '0';
+    card.style.transform = 'translateY(20px)';
     
-    // Fixed: Dynamic image loading from /images folder
     const imageElement = product.image.includes('.') 
         ? `<img src="images/${product.image}" alt="${product.name}" class="product-image-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
            <div class="product-image-placeholder" style="display:none;">Product Image</div>`
@@ -221,7 +248,7 @@ function createProductCard(product) {
             </div>
             
             <div class="option-group">
-                <label class="option-label">Qty:</label>
+                <label class="option-label">Quantity:</label>
                 <div class="quantity-selector">
                     <button class="quantity-btn" onclick="changeQuantity(${product.id}, -1)">-</button>
                     <span class="quantity-display" id="quantity-${product.id}">${productQuantities[product.id]}</span>
@@ -241,7 +268,56 @@ function createProductCard(product) {
     return card;
 }
 
-// Setup category filter functionality
+// Setup search functionality
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+    
+    if (!searchInput) {
+        console.warn('Search input not found');
+        return;
+    }
+    
+    let searchTimeout;
+    
+    function updateSearch(value) {
+        searchQuery = value;
+        renderProducts();
+        
+        // Show/hide clear button
+        if (searchClear) {
+            searchClear.style.display = value.trim() ? 'flex' : 'none';
+        }
+    }
+    
+    searchInput.addEventListener('input', function(e) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            updateSearch(e.target.value);
+        }, 300);
+    });
+    
+    // Clear search on escape
+    searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            this.value = '';
+            updateSearch('');
+        }
+    });
+    
+    // Clear button functionality
+    if (searchClear) {
+        searchClear.addEventListener('click', function() {
+            searchInput.value = '';
+            updateSearch('');
+            searchInput.focus();
+        });
+    }
+    
+    console.log('Search functionality initialized');
+}
+
+// Setup category filters
 function setupCategoryFilters() {
     const categoryPills = document.querySelectorAll('.category-pill');
     
@@ -249,41 +325,39 @@ function setupCategoryFilters() {
         pill.addEventListener('click', function() {
             const category = this.getAttribute('data-category');
             
-            // Update active pill
             categoryPills.forEach(p => p.classList.remove('active'));
             this.classList.add('active');
             
-            // Update current category and re-render products
             currentCategory = category;
-            renderProducts();
             
-            // Add haptic feedback on mobile
-            if (navigator.vibrate) {
-                navigator.vibrate(50);
+            // Clear search when changing category
+            const searchInput = document.getElementById('searchInput');
+            const searchClear = document.getElementById('searchClear');
+            if (searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+                if (searchClear) {
+                    searchClear.style.display = 'none';
+                }
             }
+            
+            renderProducts();
         });
     });
+    
+    console.log('Category filters initialized');
 }
-
 // Handle size selection
 function selectSize(productId, size) {
     productSizes[productId] = size;
     
-    // Update UI
     const sizeOptions = document.querySelectorAll(`[data-product-id="${productId}"] .size-option`);
     sizeOptions.forEach(option => {
         option.classList.remove('active');
         if (option.getAttribute('data-size') === size) {
             option.classList.add('active');
-            // Add GSAP animation for selected size
-            animateSizeSelection(option);
         }
     });
-    
-    // Add haptic feedback on mobile
-    if (navigator.vibrate) {
-        navigator.vibrate(30);
-    }
 }
 
 // Handle quantity changes
@@ -293,18 +367,9 @@ function changeQuantity(productId, change) {
     
     productQuantities[productId] = newQuantity;
     
-    // Update display
     const quantityDisplay = document.getElementById(`quantity-${productId}`);
     if (quantityDisplay) {
         quantityDisplay.textContent = newQuantity;
-        
-        // Use GSAP animation instead of manual transform
-        animateQuantityChange(quantityDisplay);
-    }
-    
-    // Add haptic feedback on mobile
-    if (navigator.vibrate) {
-        navigator.vibrate(30);
     }
 }
 
@@ -315,70 +380,6 @@ function orderProduct(productId) {
     
     const size = productSizes[productId];
     const quantity = productQuantities[productId];
-    
-    // Create WhatsApp message
-    const message = createWhatsAppMessage(product, size, quantity);
-    
-    // Add GSAP loading animation - mobile optimized
-    const button = event.target.closest('.product-whatsapp-btn');
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-        // Simplified animation for mobile
-        gsap.timeline()
-            .to(button, {
-                duration: 0.1,
-                scale: 0.97,
-                ease: 'power2.out'
-            })
-            .to(button, {
-                duration: 0.2,
-                scale: 1,
-                backgroundColor: '#128C7E',
-                ease: 'power2.out',
-                onComplete: () => {
-                    openWhatsAppWithMessage(message);
-                    // Reset button color
-                    gsap.to(button, {
-                        duration: 0.3,
-                        backgroundColor: '#25D366',
-                        ease: 'power2.out'
-                    });
-                }
-            });
-    } else {
-        // Full animation for desktop
-        gsap.timeline()
-            .to(button, {
-                duration: 0.2,
-                scale: 0.95,
-                ease: 'power2.out'
-            })
-            .to(button, {
-                duration: 0.3,
-                scale: 1.05,
-                backgroundColor: '#128C7E',
-                ease: 'power2.out'
-            })
-            .to(button, {
-                duration: 0.2,
-                scale: 1,
-                backgroundColor: '#25D366',
-                ease: 'power2.out',
-                onComplete: () => {
-                    openWhatsAppWithMessage(message);
-                }
-            });
-    }
-    
-    // Add haptic feedback on mobile
-    if (navigator.vibrate) {
-        navigator.vibrate([50, 50, 50]);
-    }
-}
-
-// Create WhatsApp message for specific product
-function createWhatsAppMessage(product, size, quantity) {
     const total = (product.price * quantity).toFixed(2);
     
     const message = `Hi ${CONFIG.businessName}! 👋
@@ -393,18 +394,13 @@ I'd like to order:
 
 Please confirm availability and delivery details. Thank you!`;
 
-    return message;
-}
-
-// Open WhatsApp with specific message
-function openWhatsAppWithMessage(message) {
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
     
     window.open(whatsappUrl, '_blank');
 }
 
-// General WhatsApp contact function (for hero button and bottom bar)
+// General WhatsApp contact
 function openWhatsApp() {
     const message = `Hi ${CONFIG.businessName}! 👋
 
@@ -412,200 +408,80 @@ I'm interested in your products. Could you please help me with more information?
 
 Thank you!`;
     
-    openWhatsAppWithMessage(message);
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${CONFIG.whatsappNumber.replace(/[^0-9]/g, '')}?text=${encodedMessage}`;
     
-    // Add haptic feedback on mobile
-    if (navigator.vibrate) {
-        navigator.vibrate([100, 50, 100]);
-    }
+    window.open(whatsappUrl, '_blank');
 }
 
-// Setup scroll animations
-function setupScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('slide-in-up');
-            }
-        });
-    }, observerOptions);
-    
-    // Observe sections for animation
-    const sections = document.querySelectorAll('.trust-section, .how-it-works, .testimonials');
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-}
-
-// Add touch interactions for mobile
-document.addEventListener('touchstart', function(e) {
-    if (e.target.matches('.product-card, .category-pill, .trust-card')) {
-        e.target.style.transform = 'scale(0.98)';
-    }
-});
-
-document.addEventListener('touchend', function(e) {
-    if (e.target.matches('.product-card, .category-pill, .trust-card')) {
-        setTimeout(() => {
-            e.target.style.transform = '';
-        }, 150);
-    }
-});
-
-// Add loading states and micro-interactions
-document.addEventListener('click', function(e) {
-    if (e.target.matches('.btn, .product-whatsapp-btn') || e.target.closest('.btn, .product-whatsapp-btn')) {
-        const btn = e.target.matches('.btn, .product-whatsapp-btn') ? e.target : e.target.closest('.btn, .product-whatsapp-btn');
-        
-        // Add click animation
-        btn.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            btn.style.transform = '';
-        }, 150);
-    }
-});
-
-// Handle window resize for responsive adjustments
-window.addEventListener('resize', function() {
-    // Adjust grid layout if needed
-    const productsGrid = document.getElementById('productsGrid');
-    if (window.innerWidth < 768) {
-        productsGrid.style.gridTemplateColumns = 'repeat(2, 1fr)';
-    } else if (window.innerWidth < 1024) {
-        productsGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-    } else {
-        productsGrid.style.gridTemplateColumns = 'repeat(4, 1fr)';
-    }
-});
-
-// Add keyboard navigation support
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        // Close any open modals or reset states
-        document.querySelectorAll('.loading').forEach(el => {
-            el.classList.remove('loading');
-        });
-    }
-});
-
-// Performance optimization: Debounce scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Add scroll-based effects (optional)
-const handleScroll = debounce(() => {
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.3;
-    
-    // Add subtle parallax to promo card
-    const promoCard = document.querySelector('.promo-card');
-    if (promoCard && scrolled < window.innerHeight) {
-        promoCard.style.transform = `translateY(${rate}px)`;
-    }
-}, 10);
-
-window.addEventListener('scroll', handleScroll);
-
-// Initialize interactive elements
-function initializeInteractiveElements() {
-    // Add smooth scrolling for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-    
-    // Add focus states for accessibility
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-            document.body.classList.add('keyboard-navigation');
-        }
-    });
-    
-    document.addEventListener('mousedown', function() {
-        document.body.classList.remove('keyboard-navigation');
-    });
-}
-
-// Call initialization when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeInteractiveElements);
-} else {
-    initializeInteractiveElements();
-}
-
-// Fixed: Setup hamburger menu functionality
+// Setup hamburger menu
 function setupHamburgerMenu() {
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileNav = document.getElementById('mobileNav');
     const mobileNavOverlay = document.getElementById('mobileNavOverlay');
     const closeNavBtn = document.getElementById('closeNavBtn');
+    const navLinks = document.querySelectorAll('.nav-link');
     
-    // Open menu
-    hamburgerBtn.addEventListener('click', function() {
-        mobileNav.classList.add('active');
-        mobileNavOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        
-        // Use GSAP animation
-        animateHamburgerMenu(true);
-        
-        // Add haptic feedback on mobile
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
-        }
-    });
-    
-    // Close menu function
-    function closeMenu() {
-        // Use GSAP animation
-        animateHamburgerMenu(false);
-        
-        // Clean up after animation
-        setTimeout(() => {
-            mobileNav.classList.remove('active');
-            mobileNavOverlay.classList.remove('active');
-            document.body.style.overflow = ''; // Restore scrolling
-        }, 400); // Reduced timeout for faster mobile experience
-        
-        // Add haptic feedback on mobile
-        if (navigator.vibrate) {
-            navigator.vibrate(30);
-        }
+    if (!hamburgerBtn || !mobileNav || !mobileNavOverlay || !closeNavBtn) {
+        console.error('Hamburger menu elements not found!');
+        console.log('hamburgerBtn:', hamburgerBtn);
+        console.log('mobileNav:', mobileNav);
+        console.log('mobileNavOverlay:', mobileNavOverlay);
+        console.log('closeNavBtn:', closeNavBtn);
+        return;
     }
     
-    // Close menu on close button click
-    closeNavBtn.addEventListener('click', closeMenu);
+    function openMenu() {
+        console.log('Opening menu...');
+        hamburgerBtn.classList.add('active');
+        mobileNav.classList.add('active');
+        mobileNavOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
     
-    // Close menu on overlay click
-    mobileNavOverlay.addEventListener('click', closeMenu);
+    function closeMenu() {
+        console.log('Closing menu...');
+        hamburgerBtn.classList.remove('active');
+        mobileNav.classList.remove('active');
+        mobileNavOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
     
-    // Close menu on nav link click
-    const navLinks = document.querySelectorAll('.nav-link');
+    hamburgerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Hamburger button clicked');
+        openMenu();
+    });
+    
+    closeNavBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Close button clicked');
+        closeMenu();
+    });
+    
+    mobileNavOverlay.addEventListener('click', function(e) {
+        console.log('Overlay clicked');
+        closeMenu();
+    });
+    
     navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            setTimeout(closeMenu, 300); // Small delay for smooth transition
+        link.addEventListener('click', function(e) {
+            if (this.getAttribute('href').startsWith('#')) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    closeMenu();
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 300);
+                }
+            } else {
+                closeMenu();
+            }
         });
     });
     
@@ -615,335 +491,6 @@ function setupHamburgerMenu() {
             closeMenu();
         }
     });
-}
-
-// Fixed: Scroll to section function for navigation
-function scrollToSection(sectionClass) {
-    const section = document.querySelector(`.${sectionClass}`);
-    if (section) {
-        section.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-}
-
-// GSAP Animations - Enhanced for mobile performance
-function initGSAPAnimations() {
-    // Register ScrollTrigger plugin
-    gsap.registerPlugin(ScrollTrigger);
     
-    // Check if device is mobile for optimized animations
-    const isMobile = window.innerWidth <= 768;
-    
-    // Ensure testimonials are visible on mobile as fallback
-    if (isMobile) {
-        gsap.set('.testimonial-card', { opacity: 1, visibility: 'visible' });
-        gsap.set('.footer-content', { opacity: 1, visibility: 'visible' });
-    }
-    
-    // Hero section entrance animation - optimized for mobile
-    gsap.timeline()
-        .from('.top-bar', {
-            duration: isMobile ? 0.6 : 0.8,
-            y: -50,
-            opacity: 0,
-            ease: 'power2.out'
-        })
-        .from('.promo-card', {
-            duration: isMobile ? 0.8 : 1,
-            y: isMobile ? 30 : 50,
-            opacity: 0,
-            scale: 0.98,
-            ease: 'power2.out'
-        }, '-=0.3')
-        .from('.category-pills .category-pill', {
-            duration: 0.5,
-            y: 20,
-            opacity: 0,
-            stagger: 0.08,
-            ease: 'power2.out'
-        }, '-=0.5');
-    
-    // Product cards animation on scroll - mobile optimized
-    gsap.set('.product-card', { opacity: 0, y: 30, scale: 0.95 });
-    
-    // Trust cards animation - reduced motion on mobile
-    gsap.from('.trust-card', {
-        scrollTrigger: {
-            trigger: '.trust-section',
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse'
-        },
-        duration: isMobile ? 0.6 : 0.8,
-        y: isMobile ? 20 : 40,
-        opacity: 0,
-        stagger: isMobile ? 0.1 : 0.2,
-        ease: 'power2.out'
-    });
-    
-    // How it works section animation - simplified for mobile
-    gsap.from('.step-card', {
-        scrollTrigger: {
-            trigger: '.how-it-works',
-            start: 'top 85%',
-            end: 'bottom 20%',
-            toggleActions: 'play none none reverse'
-        },
-        duration: isMobile ? 0.6 : 0.8,
-        y: isMobile ? 30 : 50,
-        opacity: 0,
-        stagger: isMobile ? 0.15 : 0.3,
-        ease: isMobile ? 'power2.out' : 'back.out(1.7)'
-    });
-    
-    // Testimonials scroll animation - mobile optimized with fallback
-    if (isMobile) {
-        // Simplified animation for mobile with immediate visibility
-        gsap.set('.testimonial-card', { opacity: 1, x: 0 });
-        gsap.from('.testimonial-card', {
-            scrollTrigger: {
-                trigger: '.testimonials',
-                start: 'top 90%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none none',
-                onEnter: () => {
-                    gsap.to('.testimonial-card', {
-                        duration: 0.5,
-                        opacity: 1,
-                        x: 0,
-                        stagger: 0.1,
-                        ease: 'power2.out'
-                    });
-                }
-            },
-            duration: 0.5,
-            x: 30,
-            opacity: 0.3,
-            stagger: 0.1,
-            ease: 'power2.out'
-        });
-    } else {
-        // Full animation for desktop
-        gsap.from('.testimonial-card', {
-            scrollTrigger: {
-                trigger: '.testimonials',
-                start: 'top 85%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none reverse'
-            },
-            duration: 0.8,
-            x: 100,
-            opacity: 0,
-            stagger: 0.15,
-            ease: 'power2.out'
-        });
-    }
-    
-    // Footer animation - mobile optimized with fallback
-    if (isMobile) {
-        // Simplified animation for mobile with immediate visibility
-        gsap.set('.footer-content', { opacity: 1, y: 0 });
-        gsap.from('.footer-content', {
-            scrollTrigger: {
-                trigger: '.footer',
-                start: 'top 95%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none none',
-                onEnter: () => {
-                    gsap.to('.footer-content', {
-                        duration: 0.4,
-                        opacity: 1,
-                        y: 0,
-                        ease: 'power2.out'
-                    });
-                }
-            },
-            duration: 0.4,
-            y: 15,
-            opacity: 0.5,
-            ease: 'power2.out'
-        });
-    } else {
-        // Full animation for desktop
-        gsap.from('.footer-content', {
-            scrollTrigger: {
-                trigger: '.footer',
-                start: 'top 90%',
-                end: 'bottom 20%',
-                toggleActions: 'play none none reverse'
-            },
-            duration: 1,
-            y: 20,
-            opacity: 0,
-            ease: 'power2.out'
-        });
-    }
-    
-    // Floating elements animation - reduced on mobile
-    if (!isMobile) {
-        gsap.to('.phone-mockup', {
-            duration: 3,
-            y: -10,
-            rotation: 5,
-            repeat: -1,
-            yoyo: true,
-            ease: 'power2.inOut'
-        });
-    }
-    
-    // Button hover animations - only on non-touch devices
-    if (!('ontouchstart' in window)) {
-        document.querySelectorAll('.btn-primary, .product-whatsapp-btn').forEach(btn => {
-            btn.addEventListener('mouseenter', () => {
-                gsap.to(btn, {
-                    duration: 0.2,
-                    scale: 1.03,
-                    ease: 'power2.out'
-                });
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, {
-                    duration: 0.2,
-                    scale: 1,
-                    ease: 'power2.out'
-                });
-            });
-        });
-    }
-    
-    // Category pill click animation - mobile optimized
-    document.querySelectorAll('.category-pill').forEach(pill => {
-        pill.addEventListener('click', () => {
-            gsap.to(pill, {
-                duration: 0.15,
-                scale: 0.97,
-                yoyo: true,
-                repeat: 1,
-                ease: 'power2.inOut'
-            });
-        });
-    });
-}
-
-// Enhanced product card animation with GSAP - mobile optimized
-function animateProductCards() {
-    const cards = document.querySelectorAll('.product-card');
-    const isMobile = window.innerWidth <= 768;
-    
-    gsap.to(cards, {
-        duration: isMobile ? 0.6 : 0.8,
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        stagger: isMobile ? 0.08 : 0.1,
-        ease: isMobile ? 'power2.out' : 'back.out(1.7)',
-        onComplete: () => {
-            // Add scroll trigger for cards that might be below the fold
-            cards.forEach(card => {
-                ScrollTrigger.create({
-                    trigger: card,
-                    start: 'top 95%',
-                    onEnter: () => {
-                        gsap.to(card, {
-                            duration: 0.4,
-                            opacity: 1,
-                            y: 0,
-                            scale: 1,
-                            ease: 'power2.out'
-                        });
-                    }
-                });
-            });
-        }
-    });
-}
-
-// Enhanced hamburger menu animations - mobile optimized
-function animateHamburgerMenu(isOpening) {
-    const nav = document.getElementById('mobileNav');
-    const overlay = document.getElementById('mobileNavOverlay');
-    const links = document.querySelectorAll('.nav-link');
-    
-    if (isOpening) {
-        // Opening animation - faster for mobile
-        gsap.timeline()
-            .to(overlay, {
-                duration: 0.2,
-                opacity: 1,
-                visibility: 'visible',
-                ease: 'power2.out'
-            })
-            .to(nav, {
-                duration: 0.3,
-                right: 0,
-                ease: 'power2.out'
-            }, '-=0.1')
-            .from(links, {
-                duration: 0.3,
-                x: 30,
-                opacity: 0,
-                stagger: 0.05,
-                ease: 'power2.out'
-            }, '-=0.15');
-    } else {
-        // Closing animation - faster for mobile
-        gsap.timeline()
-            .to(links, {
-                duration: 0.15,
-                x: 30,
-                opacity: 0,
-                stagger: 0.03,
-                ease: 'power2.in'
-            })
-            .to(nav, {
-                duration: 0.25,
-                right: '-100%',
-                ease: 'power2.in'
-            }, '-=0.1')
-            .to(overlay, {
-                duration: 0.15,
-                opacity: 0,
-                visibility: 'hidden',
-                ease: 'power2.in'
-            }, '-=0.15');
-    }
-}
-
-// Enhanced quantity change animation - mobile optimized
-function animateQuantityChange(quantityDisplay) {
-    const isMobile = window.innerWidth <= 768;
-    
-    gsap.timeline()
-        .to(quantityDisplay, {
-            duration: isMobile ? 0.15 : 0.2,
-            scale: isMobile ? 1.2 : 1.3,
-            color: '#25D366',
-            ease: 'power2.out'
-        })
-        .to(quantityDisplay, {
-            duration: isMobile ? 0.2 : 0.3,
-            scale: 1,
-            color: 'inherit',
-            ease: 'power2.out'
-        });
-}
-
-// Enhanced size selection animation - mobile optimized
-function animateSizeSelection(sizeOption) {
-    const isMobile = window.innerWidth <= 768;
-    
-    gsap.timeline()
-        .to(sizeOption, {
-            duration: 0.1,
-            scale: 0.95,
-            ease: 'power2.out'
-        })
-        .to(sizeOption, {
-            duration: isMobile ? 0.2 : 0.3,
-            scale: 1,
-            ease: isMobile ? 'power2.out' : 'back.out(1.7)'
-        });
+    console.log('Hamburger menu initialized successfully');
 }
